@@ -10,10 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Report
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +37,6 @@ import com.tecsup.tecsupstore.model.Producto
 
 @Composable
 fun ProductoCard(producto: Producto, modifier: Modifier = Modifier) {
-    // Estado que controla si el menú contextual está abierto o cerrado
     var expanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
@@ -56,8 +59,6 @@ fun ProductoCard(producto: Producto, modifier: Modifier = Modifier) {
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
-            // El DropdownMenu va dentro del mismo Box que el ícono que lo activa,
-            // así el menú se ancla justo debajo del botón ⋮ de ESTA tarjeta.
             Box {
                 IconButton(onClick = { expanded = !expanded }) {
                     Icon(
@@ -71,6 +72,13 @@ fun ProductoCard(producto: Producto, modifier: Modifier = Modifier) {
                 ) {
                     DropdownMenuItem(
                         text = { Text("Favoritos") },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Favorite,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        },
                         onClick = {
                             expanded = false
                             Toast.makeText(context, "${producto.nombre} agregado a favoritos", Toast.LENGTH_SHORT).show()
@@ -78,13 +86,27 @@ fun ProductoCard(producto: Producto, modifier: Modifier = Modifier) {
                     )
                     DropdownMenuItem(
                         text = { Text("Compartir") },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = null
+                            )
+                        },
                         onClick = {
                             expanded = false
                             Toast.makeText(context, "Compartiendo ${producto.nombre}", Toast.LENGTH_SHORT).show()
                         }
                     )
+                    HorizontalDivider()
                     DropdownMenuItem(
-                        text = { Text("Reportar") },
+                        text = { Text("Reportar", color = MaterialTheme.colorScheme.error) },
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Report,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.error
+                            )
+                        },
                         onClick = {
                             expanded = false
                             Toast.makeText(context, "Reporte enviado: ${producto.nombre}", Toast.LENGTH_SHORT).show()
