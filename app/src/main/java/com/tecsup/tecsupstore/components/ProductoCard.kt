@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Report
 import androidx.compose.material.icons.filled.Share
@@ -78,11 +79,22 @@ fun ProductoCard(
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Bold
                 )
-                Text(
-                    text = "S/ %.2f".format(producto.precio),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "S/ %.2f".format(producto.precio),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    if (esFavorito) {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Producto favorito",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
             }
             Box {
                 IconButton(onClick = { expanded = !expanded }) {
@@ -96,10 +108,12 @@ fun ProductoCard(
                     onDismissRequest = { expanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Favoritos") },
+                        text = {
+                            Text(if (esFavorito) "Quitar de favoritos" else "Agregar a favoritos")
+                        },
                         leadingIcon = {
                             Icon(
-                                imageVector = Icons.Default.Favorite,
+                                imageVector = if (esFavorito) Icons.Default.FavoriteBorder else Icons.Default.Favorite,
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary
                             )
