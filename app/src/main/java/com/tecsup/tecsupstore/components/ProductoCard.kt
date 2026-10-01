@@ -42,7 +42,12 @@ import androidx.compose.ui.unit.sp
 import com.tecsup.tecsupstore.model.Producto
 
 @Composable
-fun ProductoCard(producto: Producto, modifier: Modifier = Modifier) {
+fun ProductoCard(
+    producto: Producto,
+    esFavorito: Boolean,
+    onToggleFavorito: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     var expanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
@@ -101,7 +106,13 @@ fun ProductoCard(producto: Producto, modifier: Modifier = Modifier) {
                         },
                         onClick = {
                             expanded = false
-                            Toast.makeText(context, "${producto.nombre} agregado a favoritos", Toast.LENGTH_SHORT).show()
+                            onToggleFavorito()
+                            val mensaje = if (esFavorito) {
+                                "${producto.nombre} quitado de favoritos"
+                            } else {
+                                "${producto.nombre} agregado a favoritos"
+                            }
+                            Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
                         }
                     )
                     DropdownMenuItem(

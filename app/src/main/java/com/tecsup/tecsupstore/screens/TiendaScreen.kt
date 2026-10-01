@@ -23,7 +23,10 @@ import com.tecsup.tecsupstore.model.categorias
 import com.tecsup.tecsupstore.model.productosEjemplo
 
 @Composable
-fun TiendaScreen() {
+fun TiendaScreen(
+    favoritos: List<Int>,
+    onToggleFavorito: (Int) -> Unit
+) {
     var categoriaSeleccionada by remember { mutableStateOf("Todos") }
 
     val productosFiltrados = if (categoriaSeleccionada == "Todos") {
@@ -60,7 +63,11 @@ fun TiendaScreen() {
                     )
                 }
                 items(lista, key = { it.id }) { producto ->
-                    ProductoCard(producto)
+                    ProductoCard(
+                        producto = producto,
+                        esFavorito = producto.id in favoritos,
+                        onToggleFavorito = { onToggleFavorito(producto.id) }
+                    )
                 }
             }
         }

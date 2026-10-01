@@ -36,6 +36,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -121,6 +123,10 @@ fun AppNavegacion() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val favoritos = remember { mutableStateListOf<Int>() }
+    val alternarFavorito: (Int) -> Unit = { id ->
+        if (favoritos.contains(id)) favoritos.remove(id) else favoritos.add(id)
+    }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val rutaActual = backStackEntry?.destination?.route ?: Rutas.INICIO
 
@@ -213,7 +219,12 @@ fun AppNavegacion() {
                 startDestination = Rutas.INICIO,
                 modifier = Modifier.padding(innerPadding)
             ) {
-                composable(Rutas.INICIO) { TiendaScreen() }
+                composable(Rutas.INICIO) {
+                    TiendaScreen(
+                        favoritos = favoritos,
+                        onToggleFavorito = alternarFavorito
+                    )
+                }
                 composable(Rutas.PEDIDOS) { PedidosScreen() }
                 composable(Rutas.FAVORITOS) { FavoritosScreen() }
                 composable(Rutas.PERFIL) { PerfilScreen() }
