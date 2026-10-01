@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material3.Icon
@@ -46,11 +45,6 @@ fun PantallaSimple(titulo: String, icono: ImageVector, mensaje: String) {
 @Composable
 fun PedidosScreen() {
     PantallaSimple("Mis pedidos", Icons.Default.ShoppingBag, "Aún no tienes pedidos")
-}
-
-@Composable
-fun FavoritosScreen() {
-    PantallaSimple("Favoritos", Icons.Default.Favorite, "Aún no tienes favoritos")
 }
 
 @Composable

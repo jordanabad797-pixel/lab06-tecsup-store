@@ -226,7 +226,12 @@ fun AppNavegacion() {
                     )
                 }
                 composable(Rutas.PEDIDOS) { PedidosScreen() }
-                composable(Rutas.FAVORITOS) { FavoritosScreen() }
+                composable(Rutas.FAVORITOS) {
+                    FavoritosScreen(
+                        favoritos = favoritos,
+                        onToggleFavorito = alternarFavorito
+                    )
+                }
                 composable(Rutas.PERFIL) { PerfilScreen() }
             }
         }
