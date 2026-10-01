@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingBag
+import androidx.compose.material3.Badge
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -153,6 +154,7 @@ fun AppNavegacion() {
                 Spacer(modifier = Modifier.height(12.dp))
                 destinosDrawer.forEach { destino ->
                     val activo = rutaActual == destino.ruta
+                    val cantidad = if (destino.ruta == Rutas.FAVORITOS) favoritos.size else 0
                     NavigationDrawerItem(
                         label = {
                             Text(
@@ -161,6 +163,16 @@ fun AppNavegacion() {
                             )
                         },
                         icon = { Icon(destino.icono, contentDescription = null) },
+                        badge = {
+                            if (cantidad > 0) {
+                                Badge(
+                                    containerColor = MaterialTheme.colorScheme.primary,
+                                    contentColor = MaterialTheme.colorScheme.onPrimary
+                                ) {
+                                    Text(text = cantidad.toString())
+                                }
+                            }
+                        },
                         selected = activo,
                         colors = coloresItem,
                         onClick = {
